@@ -1,0 +1,27 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#3955a3",
+    "activityBar.background": "#3955a3",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#471925",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#3955a3",
+    "statusBar.background": "#2c417d",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#3955a3",
+    "statusBarItem.remoteBackground": "#2c417d",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#2c417d",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#2c417d99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "workbench.editor.customLabels.enabled": true,
+  "workbench.editor.customLabels.patterns": {
+    "**/app/**/*.tsx": "${dirname} [${filename}]",
+    "**/app/**/*.ts": "${dirname} [${filename}]"
+  },
+  "peacock.color": "#2c417d"
+}
