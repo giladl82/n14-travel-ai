@@ -1,10 +1,11 @@
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { TripDetailsType, tripDetailsSchema } from '../lib/schema';
+import { useSavePlan } from './usePlans';
 import { useResponseStoreModifiers } from './useResponseStore';
-import { callAI } from '@/lib/ai';
 
 export const useTripForm = () => {
+  const { mutate: saveTripPlan } = useSavePlan();
   const { setResponse, setError, reset } = useResponseStoreModifiers();
   const form = useForm<TripDetailsType>({
     resolver: zodResolver(tripDetailsSchema),
@@ -14,8 +15,7 @@ export const useTripForm = () => {
       numberOfChildren: 1,
       country: 'Germany',
       city: 'Black forest',
-      hotel:
-        'NATURE TITISEE - Easy.Life.Hotel. Alemannenhofweg 1-5, 79822 Titisee-Neustadt, Germany',
+      hotel: 'NATURE TITISEE - Easy.Life.Hotel. Alemannenhofweg 1-5, 79822 Titisee-Neustadt, Germany',
       attractions: '',
       withCar: false,
       fromDate: new Date(2024, 8, 5).toDateString(),
@@ -27,9 +27,9 @@ export const useTripForm = () => {
   const onSubmit = async (details: FormData) => {
     const postData = Object.fromEntries(details.entries());
     const parsed = tripDetailsSchema.safeParse(postData);
-    
+
     if (!parsed.success) {
-      console.log(parsed.error.errors)
+      console.log(parsed.error.errors);
       return;
     }
     try {
@@ -41,11 +41,19 @@ export const useTripForm = () => {
 
       if (response?.body) {
         const reader = response.body.getReader();
-
+        let tripPlan = '';
         while (true) {
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done) {
+            await saveTripPlan({
+              ...parsed.data,
+              budget: parsed.data.budget?.replaceAll(',', ''),
+              plan: tripPlan
+            })
+            break;
+          }
           const chunk = new TextDecoder().decode(value);
+          tripPlan += chunk;
           setResponse(chunk);
         }
       } else {
