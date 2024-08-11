@@ -1,11 +1,12 @@
 'use client';
 import { TripDetails } from '@/components/TripDetails';
 import { TripPlan } from '@/components/TripPlan';
-import { useResponseStore } from '../../hooks/useResponseStore';
-import { useIsLargeScreen } from '@/hooks/useIsLargeScreen';
-import Menu from '../Menu';
 import { useIsClient } from '@/hooks/useIsClient';
+import { useIsLargeScreen } from '@/hooks/useIsLargeScreen';
 import { cn } from '@/lib/utils';
+import { useResponseStore } from '../../hooks/useResponseStore';
+import { Menu } from '../Menu';
+
 export function Main() {
   const { error, response } = useResponseStore(({ error, response }) => ({
     error,

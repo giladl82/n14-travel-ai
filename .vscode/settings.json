@@ -23,5 +23,8 @@
     "**/app/**/*.tsx": "${dirname} [${filename}]",
     "**/app/**/*.ts": "${dirname} [${filename}]"
   },
-  "peacock.color": "#2c417d"
+  "peacock.color": "#2c417d",
+  "cSpell.words": [
+    "nextjs"
+  ]
 }

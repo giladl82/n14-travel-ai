@@ -1,36 +1,20 @@
-import { useUser } from '@clerk/clerk-react';
 import { Separator } from '@/components/ui/separator';
+import { currentUser } from '@clerk/nextjs/server';
+import { History, type TripHistory } from './History';
 import { UserDetails } from './UserDetails';
-import { usePlans } from '@/hooks/usePlans';
-import { TripDetailsType } from '@/lib/schema';
+import { loadTripPlans } from '@/services/tripPlans';
 
-export default function Menu() {
-  const { isSignedIn, user, isLoaded } = useUser();
-  const { data: plans, isLoading, isError } = usePlans();
-
-  if (!isLoaded || !isSignedIn || isError || isLoading || !plans) {
-    return null;
-  }
-
-  console.log(plans.data);
+export async function Menu() {
+  const history = await loadTripPlans();
+  const user = await currentUser();
+  
+  if(!user) return null;
 
   return (
-    <div className="bg-white w-full h-full shadow-md flex flex-col justify-between">
-      <ul>
-        {plans.data?.map((plan: TripDetailsType & { id: string }) => (
-          <li key={plan.id} className='p-4'>
-            <a href={`/plans/${plan.id}`}>
-              {plan.city} {plan.country}
-              <span className='text-gray-500 text-xs block mb-2'>
-                {plan.fromDate} - {plan.toDate}
-              </span>
-              <hr />
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div className="bg-white w-[400px] h-full shadow-md flex flex-col justify-between">
+      <History history={history as unknown as TripHistory[] ?? []}/>
 
-      <div>
+      <div className='h-44'>
         <Separator />
         <UserDetails user={user} />
       </div>

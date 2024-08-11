@@ -1,8 +1,9 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { QueryClientProvider } from '@/providers/QueryClientProvider';
 import './globals.css';
+import { Header } from '@/components/header';
+import { Menu } from '@/components/Menu';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,7 +25,16 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={`${inter.className} overflow-hidden h-[100dvh]`}>
-          <QueryClientProvider>{children}</QueryClientProvider>
+          <div className="h-screen flex flex-col">
+            <Header />
+
+            <div className="flex gap-4 justify-between grow bg-teal-50">
+              <Menu />
+              <main className="w-full grid grid-cols-2 gap-4 justify-between grow">
+                {children}
+              </main>
+            </div>
+          </div>
         </body>
       </html>
     </ClerkProvider>

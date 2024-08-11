@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { TripDetailsType, tripDetailsSchema } from '../lib/schema';
-import { useSavePlan } from './usePlans';
+import { useSavePlan } from '../services/tripPlans';
 import { useResponseStoreModifiers } from './useResponseStore';
 
 export const useTripForm = () => {

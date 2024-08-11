@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/form';
 import { TripDetailsType } from '../../lib/schema';
 import { Autocomplete } from '../ui/autocomplete';
-import { useCountries } from '../../hooks/useCountries';
+import { useCountries } from '../../services/countries';
 
 export function CountryInput({
   form,

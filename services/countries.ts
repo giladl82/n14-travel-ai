@@ -1,5 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
-
 type Country = {
   country: string;
   iso2: string;
@@ -9,7 +7,7 @@ type Country = {
 
 let countries: Country[] | null = null;
 
-const fetchCountries = async () => {
+export const loadCountries = async () => {
   if (countries) {
     return countries;
   }
@@ -23,11 +21,4 @@ const fetchCountries = async () => {
 
   countries = json.data;
   return countries;
-};
-
-export const useCountries = () => {
-  return useQuery({
-    queryKey: ['countries'],
-    queryFn: fetchCountries,
-  });
 };

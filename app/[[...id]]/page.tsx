@@ -4,8 +4,8 @@ import { Main } from '@/components/Main';
 export default async function Home() {
   return (
     <div className="h-screen flex flex-col">
-      <Header />
-      <Main />
+      {/* 
+      <Main /> */}
     </div>
   );
 }

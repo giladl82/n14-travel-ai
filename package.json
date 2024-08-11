@@ -27,6 +27,7 @@
     "@react-aria/listbox": "^3.12.1",
     "@react-aria/visually-hidden": "^3.8.12",
     "@react-stately/overlays": "^3.6.7",
+    "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.45.1",
     "@tanstack/react-query": "^5.45.1",
     "@tanstack/react-query-devtools": "^5.45.1",

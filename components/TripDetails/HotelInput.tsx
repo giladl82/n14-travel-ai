@@ -6,7 +6,7 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { TripDetailsType } from '../../lib/schema';
-import { useCountries } from '../../hooks/useCountries';
+import { useCountries } from '../../services/countries';
 import { Input } from '@/components/ui/input';
 
 export function HotelInput({ form }: { form: UseFormReturn<TripDetailsType> }) {
