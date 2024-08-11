@@ -1,4 +1,4 @@
-type Country = {
+export type Country = {
   country: string;
   iso2: string;
   iso3: string;
