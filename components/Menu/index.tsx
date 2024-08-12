@@ -14,7 +14,7 @@ export async function Menu() {
     <div className="bg-white w-[400px] h-full shadow-md flex flex-col justify-between">
       <History history={history as unknown as TripHistory[] ?? []}/>
 
-      <div className='h-44'>
+      <div className='h-24'>
         <Separator />
         <UserDetails user={user} />
       </div>

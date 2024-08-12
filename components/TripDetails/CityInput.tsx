@@ -1,19 +1,13 @@
 import { UseFormReturn } from 'react-hook-form';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { TripDetailsType } from '../../lib/schema';
 import { Autocomplete } from '../ui/autocomplete';
-import { useCountries } from '../../services/countries';
+import { useCountries } from '@/providers/CountriesProvider';
 
 export function CityInput({ form }: { form: UseFormReturn<TripDetailsType> }) {
-  const { data: countries } = useCountries();
-  const cities =
-    countries?.find((country) => country.country === form.getValues('country'))
-      ?.cities ?? [];
+  const { countries } = useCountries();
+
+  const cities = countries?.find((country) => country.country === form.getValues('country'))?.cities ?? [];
 
   return (
     <FormField

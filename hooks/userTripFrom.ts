@@ -1,12 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { TripDetailsType, tripDetailsSchema } from '../lib/schema';
-import { useSavePlan } from '../services/tripPlans';
-import { useResponseStoreModifiers } from './useResponseStore';
+import { useTripPlan } from '@/providers/TripPlanProvider';
+
+//TODO: Save trip on stream end
+//TODO: Clear code
 
 export const useTripForm = () => {
-  const { mutate: saveTripPlan } = useSavePlan();
-  const { setResponse, setError, reset } = useResponseStoreModifiers();
+  // const { mutate: saveTripPlan } = useSavePlan();
+  const { setPlan, setError, reset } = useTripPlan();
   const form = useForm<TripDetailsType>({
     resolver: zodResolver(tripDetailsSchema),
     defaultValues: {
@@ -45,16 +47,16 @@ export const useTripForm = () => {
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
-            await saveTripPlan({
-              ...parsed.data,
-              budget: parsed.data.budget?.replaceAll(',', ''),
-              plan: tripPlan
-            })
+            // await saveTripPlan({
+            //   ...parsed.data,
+            //   budget: parsed.data.budget?.replaceAll(',', ''),
+            //   plan: tripPlan
+            // })
             break;
           }
           const chunk = new TextDecoder().decode(value);
           tripPlan += chunk;
-          setResponse(chunk);
+          setPlan(plan => plan + chunk);
         }
       } else {
         setError(new Error('No response from server'));
@@ -70,11 +72,11 @@ export const useTripForm = () => {
     //     const chunks = response.split(' ');
     //     for (const chunk of chunks) {
     //       setTimeout(() => {
-    //         setResponse(chunk + ' ');
+    //         setPlan(chunk + ' ');
 
     //       }, 400);
     //     }
-    //     // setResponse(response);
+    //     // setPlan(response);
     //   } else {
     //     setError(new Error('No response from server'));
     //   }

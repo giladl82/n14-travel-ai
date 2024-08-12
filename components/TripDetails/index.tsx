@@ -1,47 +1,20 @@
 'use client';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { FormHeader } from './FormHeader';
 import { useTripForm } from '../../hooks/userTripFrom';
-import { Button } from '../ui/button';
 import { Form } from '../ui/form';
 import { AdultsCounter } from './AdultsCounter';
+import { Attractions } from './Attractions';
+import { BudgetInput } from './BudgetInput';
 import { ChildrenCounter } from './ChildrenCounter';
 import { CityInput } from './CityInput';
 import { CountryInput } from './CountryInput';
-import { BudgetInput } from './BudgetInput';
-import { Attractions } from './Attractions';
-import { WithCarInput } from './WithCar';
 import { DateRangePicker } from './DateRangePicker';
-import { cn } from '@/lib/utils';
-import { Hotel, Loader } from 'lucide-react';
-import { useFormStatus } from 'react-dom';
+import { FormHeader } from './FormHeader';
+import { WithCarInput } from './WithCar';
+
 import { useRef } from 'react';
 import { HotelInput } from './HotelInput';
-
-function SubmitButton() {
-  const data = useFormStatus();
-  const isLoading = data.pending;
-
-  return (
-    <Button
-      className={cn('w-full', {
-        'bg-slate-300': isLoading,
-        'text-slate-800': isLoading,
-      })}
-      disabled={isLoading}
-      type="submit"
-    >
-      {isLoading ? (
-        <>
-          <Loader className="animate-spin pr-1" />
-          &nbsp; Loading...
-        </>
-      ) : (
-        <>Submit</>
-      )}
-    </Button>
-  );
-}
+import { SubmitButton } from './SubmitButton';
 
 export function TripDetails() {
   const { form, onSubmit } = useTripForm();

@@ -1,20 +1,11 @@
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { useCountries } from '@/providers/CountriesProvider';
 import { UseFormReturn } from 'react-hook-form';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form';
 import { TripDetailsType } from '../../lib/schema';
 import { Autocomplete } from '../ui/autocomplete';
-import { useCountries } from '../../services/countries';
 
-export function CountryInput({
-  form,
-}: {
-  form: UseFormReturn<TripDetailsType>;
-}) {
-  const { data: countries } = useCountries();
+export function CountryInput({ form }: { form: UseFormReturn<TripDetailsType> }) {
+  const { countries } = useCountries();
 
   return (
     <FormField
