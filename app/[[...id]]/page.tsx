@@ -1,7 +1,7 @@
 import { TripDetails } from '@/components/TripDetails';
 import { TripPlan } from '@/components/TripPlan';
 import { CountriesProvider } from '@/providers/CountriesProvider';
-import { TripPlanProvider } from '@/providers/TripPlanProvider';
+import { TripPlanStoreProvider } from '@/providers/TripPlanProvider';
 import { loadCountries } from '@/services/countries';
 import { loadTripPlan } from '@/services/tripPlans';
 
@@ -12,10 +12,10 @@ export default async function Home({ params }: { params: { id: string } }) {
   return (
     <>
       <CountriesProvider initialCountries={countries}>
-        <TripPlanProvider initialTripPlan={tripPlan?.data.plan ?? ''}>
+        <TripPlanStoreProvider plan={tripPlan?.data.plan ?? ''} details={tripPlan?.data ?? null}>
           <TripDetails />
           <TripPlan />
-        </TripPlanProvider>
+        </TripPlanStoreProvider>
       </CountriesProvider>
     </>
   );

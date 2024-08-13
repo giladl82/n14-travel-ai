@@ -6,7 +6,7 @@ import { useCountries } from '@/providers/CountriesProvider';
 
 export function CityInput({ form }: { form: UseFormReturn<TripDetailsType> }) {
   const { countries } = useCountries();
-
+  
   const cities = countries?.find((country) => country.country === form.getValues('country'))?.cities ?? [];
 
   return (

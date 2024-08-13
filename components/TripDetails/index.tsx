@@ -1,6 +1,6 @@
 'use client';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { useTripForm } from '../../hooks/userTripFrom';
+import { useTripForm } from '../../hooks/useTripFrom';
 import { Form } from '../ui/form';
 import { AdultsCounter } from './AdultsCounter';
 import { Attractions } from './Attractions';

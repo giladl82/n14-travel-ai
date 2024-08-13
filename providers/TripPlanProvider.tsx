@@ -1,41 +1,73 @@
 'use client';
-import { type Country } from '@/services/countries';
-import React, { createContext, useContext, useState, ReactNode, useRef } from 'react';
+import { TripDetailsType } from '@/lib/schema';
+import { createContext, ReactNode, useContext, useRef } from 'react';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 
-type TripPlanContextType = {
+type TripPlanState = {
   plan: string | null;
+  details: TripDetailsType | null;
   error: Error | null;
+};
+
+type TripPlanModifiers = {
+  setTripPlan: (plan: string | null) => void;
+  setDetails: (details: TripDetailsType | null) => void;
+  setError: (error: Error) => void;
   reset: () => void;
-  setPlan: React.Dispatch<React.SetStateAction<string | null>>;
-  setError: React.Dispatch<React.SetStateAction<Error | null>>;
 };
 
-const TripPlanContext = createContext<TripPlanContextType | undefined>(undefined);
+export const defaultInitState: TripPlanState = {
+  details: null,
+  error: null,
+  plan: null,
+};
 
-type TripPlanProviderProps = {
+export type TripPlanStore = TripPlanState & TripPlanModifiers;
+
+export const createTripPlanStore = (initState: TripPlanState = defaultInitState) => {
+  return createStore<TripPlanStore>()((set) => ({
+    ...initState,
+    setTripPlan: (chunk: string | null) =>
+      set((state) => ({
+        plan: (state.plan ?? '') + (chunk ?? ''),
+        error: null,
+      })),
+    setDetails: (details: TripDetailsType | null) => set((state) => ({ ...state, details: details, error: null })),
+    setError: (error: Error) => set({ error, plan: null }),
+    reset: () => set({ plan: null, error: null }),
+  }));
+};
+
+export type TripPlanStoreApi = ReturnType<typeof createTripPlanStore>;
+
+export const TripPlanStoreContext = createContext<TripPlanStoreApi | undefined>(undefined);
+
+export type TripPlanStoreProviderProps = {
   children: ReactNode;
-  initialTripPlan: string;
+  plan: string | null;
+  details: TripDetailsType | null;
 };
 
-export function TripPlanProvider({ children, initialTripPlan }: TripPlanProviderProps) {
-  const [plan, setPlan] = useState<string | null>(initialTripPlan);
-  const [error, setError] = useState<Error | null>(null);
-  const reset = () => {
-    setError(null);
-    setPlan(null);
-  };
-
-  return (
-    <TripPlanContext.Provider value={{ plan, error, reset, setPlan, setError }}>{children}</TripPlanContext.Provider>
-  );
-}
-
-export const useTripPlan = () => {
-  const context = useContext(TripPlanContext);
-
-  if (!context) {
-    throw new Error('TripPlanContext is undefined');
+let storeRef: TripPlanStoreApi;
+export const TripPlanStoreProvider = ({ plan, details, children }: TripPlanStoreProviderProps) => {
+  if (!storeRef) {
+    storeRef = createTripPlanStore({
+      details,
+      plan,
+      error: null,
+    });
   }
 
-  return context;
+  return <TripPlanStoreContext.Provider value={storeRef}>{children}</TripPlanStoreContext.Provider>;
+};
+
+export const useTripPlanStore = <T,>(selector: (store: TripPlanStore) => T): T => {
+  const counterStoreContext = useContext(TripPlanStoreContext);
+
+  if (!counterStoreContext) {
+    throw new Error(`useTripPlanStore must be used within TripPlanStoreProvider`);
+  }
+
+  return useStore(counterStoreContext, selector);
 };

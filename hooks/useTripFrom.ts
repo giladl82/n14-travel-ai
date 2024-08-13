@@ -1,14 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { TripDetailsType, tripDetailsSchema } from '../lib/schema';
-import { useTripPlan } from '@/providers/TripPlanProvider';
+import { useTripPlanStore } from '@/providers/TripPlanProvider';
 
 //TODO: Save trip on stream end
 //TODO: Clear code
 
 export const useTripForm = () => {
-  // const { mutate: saveTripPlan } = useSavePlan();
-  const { setPlan, setError, reset } = useTripPlan();
+  const { details, setTripPlan, setError, reset } = useTripPlanStore(({ details, setTripPlan, setError, reset }) => ({
+    details,
+    setTripPlan,
+    setError,
+    reset,
+  }));
+
   const form = useForm<TripDetailsType>({
     resolver: zodResolver(tripDetailsSchema),
     defaultValues: {
@@ -22,6 +27,7 @@ export const useTripForm = () => {
       withCar: false,
       fromDate: new Date(2024, 8, 5).toDateString(),
       toDate: new Date(2024, 8, 11).toDateString(),
+      ...details,
     },
     shouldFocusError: false,
   });
@@ -56,7 +62,7 @@ export const useTripForm = () => {
           }
           const chunk = new TextDecoder().decode(value);
           tripPlan += chunk;
-          setPlan(plan => plan + chunk);
+          setTripPlan(chunk);
         }
       } else {
         setError(new Error('No response from server'));

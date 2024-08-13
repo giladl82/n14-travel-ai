@@ -1,13 +1,17 @@
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useTripPlan } from '@/providers/TripPlanProvider';
+import { useTripPlanStore } from '@/providers/TripPlanProvider';
 import { useEffect, useRef } from 'react';
 import Markdown from 'react-markdown';
 
 export function TripPlan() {
-  const { plan, error } = useTripPlan();
+  const { error, plan } = useTripPlanStore(({ error, plan }) => ({
+    error,
+    plan,
+  }));
   const container = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (plan && container.current) {
       Array.from(container.current.getElementsByTagName('a')).forEach((link) => {
