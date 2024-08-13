@@ -29,5 +29,5 @@ If not the pnpm run dev, should work just fine.
 Good luck, and I hope this project will help you.
 
 ### Things I'd like to do
-1. Replace the API with a server action
+1. Replace the API with a server action (https://sdk.vercel.ai/examples/next-app/chat/stream-chat-completion)
 2. Check if I might get a better DX + UX using `tanstack-query`
