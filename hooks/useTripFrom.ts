@@ -2,9 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { TripDetailsType, tripDetailsSchema } from '../lib/schema';
 import { useTripPlanStore } from '@/providers/TripPlanProvider';
-
-//TODO: Save trip on stream end
-//TODO: Clear code
+import { saveTripPlan } from '@/services/tripPlans';
 
 export const useTripForm = () => {
   const { details, setTripPlan, setError, reset } = useTripPlanStore(({ details, setTripPlan, setError, reset }) => ({
@@ -53,11 +51,11 @@ export const useTripForm = () => {
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
-            // await saveTripPlan({
-            //   ...parsed.data,
-            //   budget: parsed.data.budget?.replaceAll(',', ''),
-            //   plan: tripPlan
-            // })
+            await saveTripPlan({
+              ...parsed.data,
+              budget: parsed.data.budget?.replaceAll(',', ''),
+              plan: tripPlan,
+            });
             break;
           }
           const chunk = new TextDecoder().decode(value);

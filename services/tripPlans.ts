@@ -38,7 +38,7 @@ export const loadTripPlan = async (id: string) => {
     .single();
 };
 
-export const useSavePlan = async (trip: TripDetailsType & { plan: string }) => {
+export const saveTripPlan = async (trip: TripDetailsType & { plan: string }) => {
   const user = await currentUser();
   if (!user) return;
 

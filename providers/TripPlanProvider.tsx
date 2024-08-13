@@ -49,17 +49,17 @@ export type TripPlanStoreProviderProps = {
   details: TripDetailsType | null;
 };
 
-let storeRef: TripPlanStoreApi;
 export const TripPlanStoreProvider = ({ plan, details, children }: TripPlanStoreProviderProps) => {
-  if (!storeRef) {
-    storeRef = createTripPlanStore({
+  const storeRef = useRef<TripPlanStoreApi>()
+  if (!storeRef.current) {
+    storeRef.current = createTripPlanStore({
       details,
       plan,
       error: null,
     });
   }
 
-  return <TripPlanStoreContext.Provider value={storeRef}>{children}</TripPlanStoreContext.Provider>;
+  return <TripPlanStoreContext.Provider value={storeRef.current}>{children}</TripPlanStoreContext.Provider>;
 };
 
 export const useTripPlanStore = <T,>(selector: (store: TripPlanStore) => T): T => {
