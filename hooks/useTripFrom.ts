@@ -3,28 +3,29 @@ import { useForm } from 'react-hook-form';
 import { TripDetailsType, tripDetailsSchema } from '../lib/schema';
 import { useTripPlanStore } from '@/providers/TripPlanProvider';
 import { saveTripPlan } from '@/services/tripPlans';
+import { useShallow } from 'zustand/react/shallow';
 
 export const useTripForm = () => {
-  const { details, setTripPlan, setError, reset } = useTripPlanStore(({ details, setTripPlan, setError, reset }) => ({
-    details,
-    setTripPlan,
-    setError,
-    reset,
-  }));
+  const { details, setTripPlan, setError, reset } = useTripPlanStore(
+    useShallow(({ details, setTripPlan, setError, reset }) => ({
+      details,
+      setTripPlan,
+      setError,
+      reset,
+    }))
+  );
 
   const form = useForm<TripDetailsType>({
     resolver: zodResolver(tripDetailsSchema),
     defaultValues: {
       budget: '10000',
-      numberOfAdults: 3,
-      numberOfChildren: 1,
-      country: 'Germany',
-      city: 'Black forest',
-      hotel: 'NATURE TITISEE - Easy.Life.Hotel. Alemannenhofweg 1-5, 79822 Titisee-Neustadt, Germany',
+      numberOfAdults: 2,
+      numberOfChildren: 0,
+      country: '',
+      city: '',
+      hotel: '',
       attractions: '',
       withCar: false,
-      fromDate: new Date(2024, 8, 5).toDateString(),
-      toDate: new Date(2024, 8, 11).toDateString(),
       ...details,
     },
     shouldFocusError: false,
